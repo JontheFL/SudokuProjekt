@@ -90,7 +90,25 @@ public class MySudokuSolver implements SudokuSolver {
 	 * the sudoku rules.
 	 */
 	public boolean isValid(int row, int col){
-        return false;
+        if (row < 0 || row > 8 || col < 0 || col > 8){
+            throw new IndexOutOfBoundsException("Fel!");
+        }
+		int siffra = matrix[row][col];
+		if (siffra == 0) {
+			return true; //tom ruta
+		}
+		for (int i = 0; i < 9; i++) {
+			if (i != row && matrix[row][i] == siffra) { //checka rad
+				return false;
+			}
+			if (i != col && matrix[i][col] == siffra) { //checka kolumn
+				return false;
+			}
+		}
+		//nu jävlar kollar vi 3x3
+
+		
+
     }
 
 	/**
