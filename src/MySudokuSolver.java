@@ -122,7 +122,7 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @return true if all filled in digits follows the the sudoku rules
 	 */
 	public boolean isAllValid(){
-        return false;
+        return isValid(9,9);
     }
 
 	/**
@@ -150,11 +150,11 @@ public class MySudokuSolver implements SudokuSolver {
     }
 
 	/**
-	 * Returns a matix with all digits in the sudoku grid.
+	 * Returns a matrix with all digits in the sudoku grid.
 	 * 
 	 * @return a matix with all digits in the sudoku grid
 	 */
 	public int[][] getGrid(){
-        return matrix;
+        
     }
 }
