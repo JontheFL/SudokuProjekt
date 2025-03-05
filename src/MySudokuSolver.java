@@ -87,28 +87,6 @@ public class MySudokuSolver implements SudokuSolver {
 	 * the sudoku rules.
 	 */
 	public boolean isValid(int row, int col){
-
-        if (row < 0 || row > 8 || col < 0 || col > 8){
-            throw new IndexOutOfBoundsException("Fel!");
-        }
-
-        int siffra = matrix[row][col];
-
-        if (siffra == 0){
-            return true;
-        }
-
-        for (int i = 0; i < 9 ; i++){
-            if (i != col && get(row, i) == siffra){
-                return false;
-            }
-        }
-
-        for (int i = 0; i < 9; i++){
-            if (i != row && get(i, col) == siffra){
-                return false;
-            }
-        }
         return false;
     }
 
