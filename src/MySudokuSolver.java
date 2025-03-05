@@ -130,10 +130,10 @@ public class MySudokuSolver implements SudokuSolver {
 			return true; //tom ruta
 		}
 		for (int i = 0; i < 9; i++) {
-			if (i != row && get(row, i) == siffra) { //checka rad
+			if (i != col && get(row, i) == siffra) { //checka rad
 				return false;
 			}
-			if (i != col && get(i, col) == siffra) { //checka kolumn
+			if (i != row && get(i, col) == siffra) { //checka kolumn
 				return false;
 			}
 		}
