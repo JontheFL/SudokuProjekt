@@ -12,7 +12,10 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @return true if the sudoku is solveable
 	 */
 	public boolean solve(){
-        return false;
+
+        if (this.isAllValid()) {
+
+		}
     }
 
 	/**
@@ -122,7 +125,14 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @return true if all filled in digits follows the the sudoku rules
 	 */
 	public boolean isAllValid(){
-        return isValid(9,9);
+        for (int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++) {
+				if (matrix[i][j] != 0 && !isValid(i, j)) {
+					return false;
+				}
+			}
+		}
+		return true;
     }
 
 	/**
@@ -152,9 +162,15 @@ public class MySudokuSolver implements SudokuSolver {
 	/**
 	 * Returns a matrix with all digits in the sudoku grid.
 	 * 
-	 * @return a matix with all digits in the sudoku grid
+	 * @return a matrix with all digits in the sudoku grid
 	 */
-	public int[][] getGrid(){
-        return matrix; //walla kebab
-    }
+	public int[][] getGrid(){  //returnerar en uppdaterad kopia
+        int[][] kopia = new int[9][9];
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				kopia[i][j] = matrix[i][j];
+			}
+    	}
+		return kopia;
+	}	
 }
