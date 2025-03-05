@@ -11,7 +11,7 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @return true if the sudoku is solveable
 	 */
 	public boolean solve() {
-        return solve(0,0); //börja vid övre vänstra hörnet av brädet
+        return solve2(0,0); //börja vid övre vänstra hörnet av brädet
     }
 
 	/**
@@ -21,24 +21,24 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @param col aktuall kolumn
 	 * @return true om lösbart sudoku
 	 */
-	private boolean solve(int row, int col) {
+	private boolean solve2(int row, int col) {
+		if (col == 9) { //nu måste vi gå till nästa rad
+			return solve2(row+1, 0);
+		}
 		if (row == 9) { //här har row blivit större än brädet -> lösbart
 			return true;
 		}
-		if (col == 9) { //nu måste vi gå till nästa rad
-			return solve(row+1, 0);
-		}
-		if (matrix[row][col] != 0) { 	//om en siffra redan är placerad...
-			return solve(row, col + 1); //...så går vi till nästa ruta
+		if (get(row, col) != 0) { 	//om en siffra redan är placerad...
+			return solve2(row, col + 1); //...så går vi till nästa ruta
 		}
 		for (int test = 1; test <= 9; test++) {
-			matrix[row][col] = test; //placerar en testsiffra på brädet
+			set(row, col, test);
 			if (isValid(row, col)) {  //är den siffran giltig?
-				if(solve(row, col+1)) { //då testar vi nästa position
+				if(solve2(row, col+1)) { //då testar vi nästa position
 					return true;  //når vi hit är sudokut löst
 				}
 			}
-			matrix[row][col] = 0; //nollställ och backtracka
+			set(row, col, 0); //nollställ och backtracka
 		}
 		return false;
 	}
