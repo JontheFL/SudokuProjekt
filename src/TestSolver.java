@@ -219,22 +219,22 @@ public class TestSolver {
 	//testar lösa lösbart sudoku
 	@Test public void testSolveSolvablePuzzle() {
 		int[][] board = new int[][] {
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 5, 3, 0, 0, 7, 0, 0, 0, 0 },
+			{ 6, 0, 0, 1, 9, 5, 0, 0, 0 },
+			{ 0, 9, 8, 0, 0, 0, 0, 6, 0 },
+			{ 8, 0, 0, 0, 6, 0, 0, 0, 3 },
+			{ 4, 0, 0, 8, 0, 3, 0, 0, 1 },
+			{ 7, 0, 0, 0, 2, 0, 0, 0, 6 },
+			{ 0, 6, 0, 0, 0, 0, 2, 8, 0 },
+			{ 0, 0, 0, 4, 1, 9, 0, 0, 5 },
+			{ 0, 0, 0, 0, 8, 0, 0, 7, 9 }
 		};
 
-	//testar lösa olösbart suduko
 	solver.setGrid(board);
 	assertTrue(solver.solve(), "Solver::solve returnerar true om lösbart");
 	}
 
+	//testar lösa olösbart suduko
 	@Test public void testSolveUnsolvablePuzzle() {
 		int[][] board = new int[][] {
 			{ 5, 3, 0, 0, 7, 0, 0, 0, 0 },
@@ -307,7 +307,44 @@ public class TestSolver {
 		};
 		solver.setGrid(board);
 		assertTrue(solver.isValid(0,0), "Solver::isValid funkar");
+		assertTrue(solver.isValid(0,5));
 		solver.set(0,0,1); //lägg till ogiltig siffra
 		assertFalse(solver.isValid(0,0), "Solver::isValid ska returnera false");
+		
+	}
+
+	@Test public void testGet() {
+		int [][] board = new int [][] {
+			{ 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		};
+
+		solver.setGrid(board);
+		assertEquals(1, solver.get(0,1), "solver::get metod");
+	}
+
+	@Test public void testSet() {
+		int [][] board = new int [][] {
+			{ 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		};
+
+		solver.setGrid(board);
+		solver.set(0,0,6);
+		assertEquals(6, solver.get(0,0), "solver::get metod");
 	}
 }

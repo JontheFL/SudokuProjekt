@@ -23,22 +23,29 @@ public class MySudokuSolver implements SudokuSolver {
 	 */
 	private boolean solve2(int row, int col) {
 		if (col == 9) { //nu måste vi gå till nästa rad
-			return solve2(row+1, 0);
+			col = 0;
+			row++;
 		}
 		if (row == 9) { //här har row blivit större än brädet -> lösbart
 			return true;
 		}
 		if (get(row, col) != 0) { 	//om en siffra redan är placerad...
-			return solve2(row, col + 1); //...så går vi till nästa ruta
-		}
-		for (int test = 1; test <= 9; test++) {
-			set(row, col, test);
-			if (isValid(row, col)) {  //är den siffran giltig?
-				if(solve2(row, col+1)) { //då testar vi nästa position
-					return true;  //når vi hit är sudokut löst
-				}
+			if (!isValid(row, col)) {
+				return false;
 			}
-			set(row, col, 0); //nollställ och backtracka
+			if (solve2(row, col +1)) {
+				return true; //...så går vi till nästa ruta
+			}
+		}else {
+			for (int test = 1; test <= 9; test++) {
+				set(row, col, test);
+				if (isValid(row, col)) {  //är den siffran giltig?
+					if(solve2(row, col+1)) { //då testar vi nästa position
+						return true;  //når vi hit är sudokut löst
+					}
+				}
+				clear(row, col); //nollställ och backtracka
+			}
 		}
 		return false;
 	}
@@ -118,25 +125,25 @@ public class MySudokuSolver implements SudokuSolver {
         if (row < 0 || row > 8 || col < 0 || col > 8){
             throw new IndexOutOfBoundsException("Fel!");
         }
-		int siffra = matrix[row][col];
+		int siffra = get(row, col);
 		if (siffra == 0) {
 			return true; //tom ruta
 		}
 		for (int i = 0; i < 9; i++) {
-			if (i != row && matrix[row][i] == siffra) { //checka rad
+			if (i != row && get(row, i) == siffra) { //checka rad
 				return false;
 			}
-			if (i != col && matrix[i][col] == siffra) { //checka kolumn
+			if (i != col && get(i, col) == siffra) { //checka kolumn
 				return false;
 			}
 		}
-		//nu jävlar kollar vi 3x3
 
+		//nu jävlar kollar vi 3x3
 		int row3 = (row / 3) * 3;
 		int col3 = (col / 3) * 3;
-		for (int i = row3; i < row3+3; i++) {
-			for (int j = col3; j < col3+3; j++) {
-				if (i != row && j != col && matrix[i][j] == siffra) {
+		for (int i = row3; i <= row3 + 2; i++) {
+			for (int j = col3; j <= col3 + 2; j++) {
+				if ((i != row || j != col) && get(i, j) == siffra) {
 					return false;
 				}
 			}
