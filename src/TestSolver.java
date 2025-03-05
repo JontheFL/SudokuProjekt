@@ -1,4 +1,7 @@
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -211,5 +214,100 @@ public class TestSolver {
 		assertTrue(Arrays.deepEquals(
 			board, solver.getGrid()), "Solver::getGrid and Solver::setGrid should copy the elements."
 		);
+	}
+
+	//testar lösa lösbart sudoku
+	@Test public void testSolveSolvablePuzzle() {
+		int[][] board = new int[][] {
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		};
+
+	//testar lösa olösbart suduko
+	solver.setGrid(board);
+	assertTrue(solver.solve(), "Solver::solve returnerar true om lösbart");
+	}
+
+	@Test public void testSolveUnsolvablePuzzle() {
+		int[][] board = new int[][] {
+			{ 5, 3, 0, 0, 7, 0, 0, 0, 0 },
+			{ 6, 0, 0, 1, 9, 5, 0, 0, 0 },
+			{ 0, 9, 8, 0, 0, 0, 0, 6, 0 },
+			{ 8, 0, 0, 0, 6, 0, 0, 0, 3 },
+			{ 4, 0, 0, 8, 0, 3, 0, 0, 1 },
+			{ 7, 0, 0, 0, 2, 0, 0, 0, 6 },
+			{ 0, 6, 0, 0, 0, 0, 2, 8, 0 },
+			{ 0, 0, 0, 4, 1, 9, 0, 0, 5 },
+			{ 0, 0, 0, 0, 8, 0, 0, 7, 5 } //två femmor i slutet
+		};
+		solver.setGrid(board);
+		assertFalse(solver.solve(), "Solver::solve ska returnera false");
+	}
+
+	//testa att rensa 1 ruta
+	@Test public void testClear() {
+		int[][] board = new int[][] {
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0},
+			{5, 0, 0, 0, 0, 0, 0, 0, 0}
+		};
+		solver.setGrid(board);
+		solver.clear(0,0);
+		assertEquals(0, solver.get(0, 0), "Solver::clear should set row,col to 0");
+	}
+
+	//testa rensa allt!
+	@Test public void testClearAll() {
+		int[][] board = new int[][] {
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+			{5, 5, 5, 5, 5, 5, 5, 5, 5},
+		};
+		solver.setGrid(board);
+		solver.clearAll(); //rensa allt i brädet solver
+		int[][] rensatBräde = solver.getGrid();
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				assertEquals(0, rensatBräde[row][col], "Solver::clearAll har rensat allt");
+			}
+		}
+	}
+
+	//testa om en bra placering blir bra
+	@Test public void testIsValid() {
+		int [][] board = new int [][] {
+			{ 0, 1, 2, 3, 4, 5, 6, 7, 8 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		};
+		solver.setGrid(board);
+		assertTrue(solver.isValid(0,0), "Solver::isValid funkar");
+		solver.set(0,0,1); //lägg till ogiltig siffra
+		assertFalse(solver.isValid(0,0), "Solver::isValid ska returnera false");
 	}
 }
