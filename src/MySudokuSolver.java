@@ -3,7 +3,6 @@ public class MySudokuSolver implements SudokuSolver {
     private int[][] matrix = new int[9][9];
 
     public MySudokuSolver(){
-        this.matrix = matrix;
     }
 
     /**
@@ -11,12 +10,38 @@ public class MySudokuSolver implements SudokuSolver {
 	 * 
 	 * @return true if the sudoku is solveable
 	 */
-	public boolean solve(){
-
-        if (this.isAllValid()) {
-
-		}
+	public boolean solve() {
+        return solve(0,0); //börja vid övre vänstra hörnet av brädet
     }
+
+	/**
+	 * Privat rekursiv metod för solve
+	 * 
+	 * @param row aktuell rad
+	 * @param col aktuall kolumn
+	 * @return true om lösbart sudoku
+	 */
+	private boolean solve(int row, int col) {
+		if (row == 9) { //här har row blivit större än brädet -> lösbart
+			return true;
+		}
+		if (col == 9) { //nu måste vi gå till nästa rad
+			return solve(row+1, 0);
+		}
+		if (matrix[row][col] != 0) { 	//om en siffra redan är placerad...
+			return solve(row, col + 1); //...så går vi till nästa ruta
+		}
+		for (int test = 1; test <= 9; test++) {
+			matrix[row][col] = test; //placerar en testsiffra på brädet
+			if (isValid(row, col)) {  //är den siffran giltig?
+				if(solve(row, col+1)) { //då testar vi nästa position
+					return true;  //når vi hit är sudokut löst
+				}
+			}
+			matrix[row][col] = 0; //nollställ och backtracka
+		}
+		return false;
+	}
 
 	/**
 	 * Puts digit in the box row, col. The digit 0 represents an empty box.
