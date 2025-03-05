@@ -155,6 +155,6 @@ public class MySudokuSolver implements SudokuSolver {
 	 * @return a matix with all digits in the sudoku grid
 	 */
 	public int[][] getGrid(){
-        
+        return matrix; //walla kebab
     }
 }
