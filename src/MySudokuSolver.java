@@ -47,6 +47,11 @@ public class MySudokuSolver implements SudokuSolver {
         if (row < 0 || row > 8 || col < 0 || col > 8){
             throw new IndexOutOfBoundsException("Fel!");
         }
+
+        if (matrix[row][col] == 0){
+            return 0;
+        }
+        
         return matrix[row][col];
     }
 
@@ -61,14 +66,18 @@ public class MySudokuSolver implements SudokuSolver {
         if (row < 0 || row > 8 || col < 0 || col > 8){
             throw new IndexOutOfBoundsException("Fel!");
         }
-        return;
+        matrix[row][col] = 0;
     }
 
 	/**
 	 * Clears all digits in the sudoku.
 	 */
 	public void clearAll(){
-        return;
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                matrix[i][j] = 0;
+            }
+        }
     }
 
 	/**
