@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 // Make sure that the imports are correct.
-import solver.MySudokuSolver;
-import solver.SudokuSolver;     //wtf menas?
+//solver.MySudokuSolver;
+//solver.SudokuSolver;     //wtf menas?
 
 public class TestSolver {
 	private SudokuSolver solver;
