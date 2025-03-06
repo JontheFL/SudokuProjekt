@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List; 
 
 
 public class SudokuGUI extends JFrame {
@@ -18,9 +20,11 @@ private SudokuSolver solver;
 private JTextField[][] grid;
 private JButton solveButton;
 private JButton clearButton;
+private List<int[]> felList;
 
     public SudokuGUI(SudokuSolver solver) {
         this.solver = solver;
+        this.felList = new ArrayList<>(); //lista som kan lagra fel karaktärer
         createGUI();
     }
 
@@ -42,7 +46,7 @@ private JButton clearButton;
                 grid[row][col].setFont(new Font("Arial", Font.BOLD, 20));
 
                 if ((row / 3 + col / 3) % 2 == 0) {
-                    grid[row][col].setBackground(Color.LIGHT_GRAY);
+                    grid[row][col].setBackground(Color.LIGHT_GRAY); //färga vissa
                 }
                 
                 panel.add(grid[row][col]);
@@ -64,6 +68,7 @@ private JButton clearButton;
 
     private void solve(){
         int[][] matrix = new int[9][9];
+        felList.clear();
 
         try {
             for (int row = 0; row < 9; row++){
@@ -71,26 +76,29 @@ private JButton clearButton;
                     String text = grid[row][col].getText();
                     if (text.isEmpty()){
                         matrix[row][col] = 0;
-                    }
-                    else {
+                    } else {
                         try {
                             matrix[row][col] = Integer.parseInt(text);
-
                             if (matrix[row][col] < 1 || matrix[row][col] > 9) {
-                                JOptionPane.showMessageDialog(this, "Felaktig inmatning, måste vara mellan 1-9");
-                                blinkblink(row, col); // Rutan blinkar
-                                clearcell(row, col);
-                                return;
+                                felList.add(new int[]{row, col});
                             }
                         } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this, "Felaktig inmatning, måste vara en siffra");
-                            blinkblink(row, col);
-                            clearcell(row, col);
-                            return;
+                            felList.add(new int[]{row, col});
                         }
                     }
                 }
             }
+            if (!felList.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Felaktig inmatning, måste vara mellan 1-9");
+                for (int[] pos : felList) {
+                    int r = pos[0];
+                    int c = pos[1];
+                    blinkblink(r, c);
+                    clearcell(r, c);
+                }
+                return;
+            }
+
             //Här borde vi kolla om det är en lösning eller inte
             
             solver.setGrid(matrix);
