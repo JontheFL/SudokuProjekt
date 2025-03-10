@@ -234,6 +234,23 @@ public class TestSolver {
 	assertTrue(solver.solve(), "Solver::solve returnerar true om lösbart");
 	}
 
+	@Test public void testSolveEmptyPuzzle() {
+		int[][] board = new int[][] {
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0}
+		};
+
+	solver.setGrid(board);
+	assertTrue(solver.solve(), "Solver::solve returnerar true om lösbart");
+	}
+
 	//testar lösa olösbart suduko
 	@Test public void testSolveUnsolvablePuzzle() {
 		int[][] board = new int[][] {
